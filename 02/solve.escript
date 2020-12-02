@@ -2,12 +2,14 @@
 
 %% https://adventofcode.com/2020/day/2
 
+-mode(compile).
+
 main(Args) ->
   Input = lists:sort(read_list("~d-~d ~c: ~s")),
   Ans =
     case Args of
-      ["2"] -> check(fun(X) -> isOkP2(X) end, Input);
-      _ -> check(fun(X) -> isOkP1(X) end, Input)
+      ["2"] -> check(fun isOkP2/1, Input);
+      _ -> check(fun isOkP1/1, Input)
     end,
   io:format("~w~n", [Ans]).
 

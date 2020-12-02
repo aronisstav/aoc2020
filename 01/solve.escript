@@ -2,6 +2,8 @@
 
 %% https://adventofcode.com/2020/day/1
 
+-mode(compile).
+
 main(Args) ->
   Nums = lists:sort(read_list("~d")),
   {ok, Ans} =
