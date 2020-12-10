@@ -41,18 +41,14 @@ jumps([H|R], V, One, Three) ->
 %%--------------------------------------------------------------------
 second(Input) ->
   %% Solve this backwards, tracking how many sequences that finish
-  %% correctly we can make starting with a given adapter.
-  [H|RevSort] = lists:reverse([0|lists:sort(Input)]),
-  %% There is only one sequence from the last one (i.e. H -> H + 3).
-  M = #{H => 1},
-  combi(RevSort, M).
-
-%% "How many sequences can we make starting with 0?"
-combi([], #{0 := V}) -> V;
-combi([H|T], M) ->
-  %% Starting with H, we can make all sequences whose next adapter is
-  %% either 1, 2, or 3 steps away.  The nice property here is that if
-  %% we don't use an adapter, we continue with a higher one and we can
-  %% therefore consider each choice only once!
-  V = lists:sum([maps:get(H + D, M, 0) || D <- [1, 2, 3]]),
-  combi(T, M#{H => V}).
+  %% correctly can be made when starting with a given adapter.
+  [Last|RevSort] = lists:reverse([0|lists:sort(Input)]),
+  Fold =
+    fun(H, M) ->
+        %% Starting with H, any sequence whose first adapter is either
+        %% 1, 2, or 3 steps away can be used to finish correctly.
+        M#{H => lists:sum([maps:get(H + D, M, 0) || D <- [1, 2, 3]])}
+    end,
+  %% Only one sequence from the last adapter exists.  How many
+  %% sequences can be made starting with 0?
+  maps:get(0 ,lists:foldl(Fold, #{Last => 1}, RevSort)).
