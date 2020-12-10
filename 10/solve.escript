@@ -51,4 +51,4 @@ second(Input) ->
     end,
   %% Only one sequence from the last adapter exists.  How many
   %% sequences can be made starting with 0?
-  maps:get(0 ,lists:foldl(Fold, #{Last => 1}, RevSort)).
+  maps:get(0, lists:foldl(Fold, #{Last => 1}, RevSort)).
