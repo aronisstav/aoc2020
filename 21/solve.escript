@@ -39,7 +39,8 @@ parse(Lines) ->
 %%--------------------------------------------------------------------
 first(Input) ->
   FromFood = from_food(Input, #{}),
-  Solved = solve_food(FromFood).
+  #{k := K} = solve_food(FromFood),
+  safes(Input, K).
 
 from_food(Food, Map) ->
   FoldF =
@@ -78,6 +79,13 @@ rem_known(Is, Known) ->
   Vs = maps:keys(Known),
   Is -- Vs.
 
+safes(Foods, Knowns) ->
+  K = maps:keys(Knowns),
+  Fold = fun({I, _}, C) -> C + length(I -- K) end,
+  lists:foldl(Fold, 0, Foods).
+
 %%--------------------------------------------------------------------
 second(Input) ->
-  Input.
+  FromFood = from_food(Input, #{}),
+  #{a := A} = solve_food(FromFood),
+  string:join([I || {_, I} <- lists:sort(maps:to_list(A))],",").
