@@ -1,7 +1,7 @@
 #!/usr/bin/env escript
 -mode(compile).
 
-%% https://adventofcode.com/2020/day/17
+%% https://adventofcode.com/2020/day/18
 
 main(Args) ->
   Input = read_list("~s"),
